@@ -4,6 +4,34 @@ import os
 import json
 import log
 import sys
+import hashlib
+
+async def get_file_hash(file_path, hashCode) -> str:
+    try:
+        async with aiofiles.open(file_path, 'rb') as file:
+            hash = None
+            if hashCode == 'md5':
+                hash = hashlib.md5()
+            elif hashCode == 'sha512':
+                hash = hashlib.sha512()
+            elif hashCode == 'sha256':
+                hash = hashlib.sha256()
+            else:
+                raise ValueError(f'Unsupported hash: {hash}')
+            while True:
+                data = await file.read(8192)
+                if not data:
+                    break
+                hash.update(data)
+        return hash.hexdigest()
+    except FileNotFoundError:
+        return {
+            'error': f'File not found: {file_path}'
+        }
+    except Exception as e:
+        return {
+            'error': str(e)
+        }
 
 async def get_file_stats(file_path) -> dict:
     try:
@@ -11,6 +39,9 @@ async def get_file_stats(file_path) -> dict:
             file_size = os.path.getsize(file_path)
             file_stats = os.stat(file_path)
             return {
+                'md5_hash': await get_file_hash(file_path, 'md5'),
+                'sha512_hash': await get_file_hash(file_path, 'sha512'),
+                'sha256_hash': await get_file_hash(file_path, 'sha256'),
                 'file_size': file_size,
                 'creation_time': file_stats.st_ctime,
                 'modification_time': file_stats.st_mtime,
