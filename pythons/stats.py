@@ -39,7 +39,14 @@ async def format_datetime(date_time:dt) -> str:
 
 async def get_files_from_directory(directory_path) -> list:
     try:
-        return [file_path for file_path in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, file_path))]
+        files = []
+        for entry in os.scandir(directory_path):
+            if entry.is_file():
+                files.append(entry.path)
+            elif entry.is_dir():
+                files.extend(await get_files_from_directory(entry.path))
+            else:
+                continue
     except FileNotFoundError:
         return {
             'error': f'Directory not found: {directory_path}'
@@ -72,3 +79,20 @@ async def get_file_stats(file_path) -> dict:
         return {
             'error': str(e)
         }
+
+async def main():
+    if len(sys.argv) != 2:
+        sys.exit(1)
+    directory_path = sys.argv[1]
+    files = await get_files_from_directory(directory_path)
+    for file_path in files:
+        stats_dict = await get_file_stats(file_path)
+        if 'error' not in stats_dict:
+            print(f'Stats for {file_path}:')
+            print(stats_dict)
+
+if __name__ == '__main__':
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        sys.exit(1)
