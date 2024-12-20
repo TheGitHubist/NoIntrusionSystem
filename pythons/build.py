@@ -2,9 +2,11 @@ import asyncio
 import aiofiles
 import os
 import json
-import log
+import datetime as dt
 import sys
 import hashlib
+import pwd
+import grp
 
 async def get_file_hash(file_path, hashCode) -> str:
     try:
@@ -43,10 +45,10 @@ async def get_file_stats(file_path) -> dict:
                 'sha512_hash': await get_file_hash(file_path, 'sha512'),
                 'sha256_hash': await get_file_hash(file_path, 'sha256'),
                 'file_size': file_size,
-                'creation_time': file_stats.st_ctime,
-                'modification_time': file_stats.st_mtime,
-                'owner': file_stats.st_uid,
-                'owner_group': file_stats.st_gid,
+                'creation_time': dt.datetime.fromtimestamp(file_stats.st_ctime),
+                'modification_time': dt.datetime.fromtimestamp(file_stats.st_mtime, tz = dt.timezone.utc),
+                'owner': pwd.getpwuid(file_stats.st_uid).pw_name,
+                'owner_group': grp.getgrgid(file_stats.st_gid).gr_name,
             }
     except FileNotFoundError:
         return {
