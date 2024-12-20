@@ -67,7 +67,6 @@ async def statsToJson(stats_dict) -> None:
 
 async def main():
     if len(sys.argv) != 2:
-        print('Usage: python check.py <file_path>')
         sys.exit(1)
     file_path = sys.argv[1]
     stats = await get_file_stats(file_path)
@@ -77,5 +76,4 @@ if __name__ == '__main__':
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        log.info('Interrupted by user')
         sys.exit(1)
