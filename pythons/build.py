@@ -32,6 +32,7 @@ async def main():
     for file_stats in stats_dict:
         print(f'Stats for {file_stats}:')
         print(stats_dict[file_stats])
+    await statsToJson(stats_dict)
 
 if __name__ == '__main__':
     try:
