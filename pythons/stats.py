@@ -4,6 +4,8 @@ import datetime as dt
 import hashlib
 import pwd
 import grp
+import sys
+import asyncio
 
 async def get_file_hash(file_path, hashCode) -> str:
     try:
@@ -34,6 +36,18 @@ async def get_file_hash(file_path, hashCode) -> str:
 
 async def format_datetime(date_time:dt) -> str:
     return date_time.strftime(f'%d/%m/%Y - %H:%M:%S')
+
+async def get_files_from_directory(directory_path) -> list:
+    try:
+        return [file_path for file_path in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, file_path))]
+    except FileNotFoundError:
+        return {
+            'error': f'Directory not found: {directory_path}'
+        }
+    except Exception as e:
+        return {
+            'error': str(e)
+        }
 
 async def get_file_stats(file_path) -> dict:
     try:
