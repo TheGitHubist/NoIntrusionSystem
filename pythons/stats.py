@@ -47,6 +47,7 @@ async def get_files_from_directory(directory_path) -> list:
                 files.extend(await get_files_from_directory(entry.path))
             else:
                 continue
+        return files
     except FileNotFoundError:
         return {
             'error': f'Directory not found: {directory_path}'
