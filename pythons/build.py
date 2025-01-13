@@ -15,7 +15,7 @@ async def statsToJson(stats_dict) -> None:
 async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
-    file_list = stats.get_files_from_directory(sys.argv[1])
+    file_list = await stats.get_files_from_directory(sys.argv[1])
     stats_dict = {}
     for file_path in file_list:
         stats_dict[file_path] = await stats.get_file_stats(file_path)
