@@ -8,7 +8,7 @@ async def statsToJson(stats_dict) -> None:
     try:
         os.makedirs('/var/ids', exist_ok=True)
         with open('/var/ids/db.json', 'w') as file:
-            await file.write(json.dumps(stats_dict, indent=4))
+            file.write(json.dumps(stats_dict, indent=4))
     except Exception as e:
         print(f'Error writing to stats.json: {str(e)}')
 
