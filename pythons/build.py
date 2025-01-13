@@ -15,17 +15,7 @@ async def statsToJson(stats_dict) -> None:
 async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
-    file_list_path = sys.argv[1]
-    file_list = []
-    try:
-        with open(file_list_path, 'r') as file:
-            file_list = [line.strip() for line in file.readlines()]
-    except FileNotFoundError:
-        print(f'File not found: {file_list_path}')
-        sys.exit(1)
-    except Exception as e:
-        print(f'Error reading file: {str(e)}')
-        sys.exit(1)
+    file_list = stats.get_files_from_directory(sys.argv[1])
     stats_dict = {}
     for file_path in file_list:
         stats_dict[file_path] = await stats.get_file_stats(file_path)
