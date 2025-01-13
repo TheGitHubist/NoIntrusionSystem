@@ -10,6 +10,7 @@ import json
 async def stats_compare(files : list, check_dict : dict):
     stat_dict = {}
     compteur = 0
+    pfile = []
     print("Comparaison des stats")
     for file_name in files:       
         stat_dict[file_name] = await stats.get_file_stats(file_name)
@@ -18,8 +19,12 @@ async def stats_compare(files : list, check_dict : dict):
         else :
             print("probleme")
             compteur += 1
+            pfile.append(file_name)
+            
     if compteur != 0:
-        print("ok")
+        print(f"this files have problem : {pfile}")
+    else:
+        print("pas de probleme")
 
 
 async def main():
