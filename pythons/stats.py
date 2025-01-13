@@ -1,4 +1,4 @@
-import aiofiles
+import aiofile
 import os
 import datetime as dt
 import hashlib
@@ -9,7 +9,7 @@ import asyncio
 
 async def get_file_hash(file_path, hashCode) -> str:
     try:
-        async with aiofiles.open(file_path, 'rb') as file:
+        async with aiofile.async_open(file_path, 'rb') as file:
             hash = None
             if hashCode == 'md5':
                 hash = hashlib.md5()
@@ -37,9 +37,15 @@ async def get_file_hash(file_path, hashCode) -> str:
 async def format_datetime(date_time:dt) -> str:
     return date_time.strftime(f'%d/%m/%Y - %H:%M:%S')
 
+async def getFilesFromTxt(file_path) -> list:
+    print(file_path)
+    with await aiofile.async_open(file_path, 'r') as f:
+        print(await f.readline())
+
 async def get_files_from_directory(directory_path) -> list:
     try:
         files = []
+
         for entry in os.scandir(directory_path):
             if entry.is_file():
                 files.append(entry.path)
@@ -84,10 +90,13 @@ async def get_file_stats(file_path) -> dict:
 async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
+    await getFilesFromTxt(sys.argv[1])
     directory_path = sys.argv[1]
     files = await get_files_from_directory(directory_path)
+    print(files)
     for file_path in files:
         stats_dict = await get_file_stats(file_path)
+        print(stats_dict)
         if 'error' not in stats_dict:
             print(f'Stats for {file_path}:')
             print(stats_dict)
