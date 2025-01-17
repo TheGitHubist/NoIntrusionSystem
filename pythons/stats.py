@@ -41,6 +41,7 @@ async def getFilesFromTxt(file_path) -> list:
     try:
         files = []
         async with aiofile.async_open(file_path, 'r') as f:
+            lines = [line.rstrip('\n') for line in f]
             line = await f.readline()
             if os.path.isdir(line) :
                 files.extend(await get_files_from_directory(line))
