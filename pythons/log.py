@@ -1,5 +1,6 @@
 import logging
 import os
+import datetime
 
 logger = logging.getLogger("logs")
 logger.setLevel(10)
@@ -30,7 +31,7 @@ class CustomFormatter(logging.Formatter):
 
     def format(self, record):
         log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt, datefmt="%Y-%m-%d %H:%M:%S")
+        formatter = logging.Formatter(log_fmt, datefmt= datetime.datetime.now().astimezone().isoformat())
         return formatter.format(record)
     
 console_handler = logging.StreamHandler()
