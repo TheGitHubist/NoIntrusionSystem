@@ -1,3 +1,0 @@
-/home/azu/NoIntrusionSystem/test
-/home/azu/NoIntrusionSystem/pythons/build.py
-/home//NoIntrusionSystem/pythons/check.py
