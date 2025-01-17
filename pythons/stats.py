@@ -104,10 +104,9 @@ async def main():
     log.logger.info(f"files : {files}")
     for file_path in files:
         stats_dict = await get_file_stats(file_path)
-        print("\n\n")
         if 'error' not in stats_dict:
-            print(f'Stats for {file_path}:')
-            print(stats_dict)
+            log.logger.info(f'Stats for {file_path}:')
+            log.logger.info(stats_dict)
 
 if __name__ == '__main__':
     try:
