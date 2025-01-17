@@ -38,9 +38,13 @@ async def format_datetime(date_time:dt) -> str:
     return date_time.strftime(f'%d/%m/%Y - %H:%M:%S')
 
 async def getFilesFromTxt(file_path) -> list:
-    print(file_path)
-    with await aiofile.async_open(file_path, 'r') as f:
-        print(await f.readline())
+    try:
+        with await aiofile.async_open(file_path, 'r') as f:
+            print(await f.readline())
+            return f.readline()
+    except Exception as e:
+        print("fuck you")
+        return []
 
 async def get_files_from_directory(directory_path) -> list:
     try:
@@ -65,7 +69,7 @@ async def get_files_from_directory(directory_path) -> list:
 
 async def get_file_stats(file_path) -> dict:
     try:
-        async with aiofiles.open(file_path, 'r') as file:
+        async with aiofile.async_open(file_path, 'r') as file:
             file_size = os.path.getsize(file_path)
             file_stats = os.stat(file_path)
             return {
@@ -90,12 +94,12 @@ async def get_file_stats(file_path) -> dict:
 async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
-    await getFilesFromTxt(sys.argv[1])
+    await getFilesFromTxt("./main.py")
     directory_path = sys.argv[1]
     files = await get_files_from_directory(directory_path)
     print(files)
     for file_path in files:
-        stats_dict = await get_file_stats(file_path)
+        stats_dict = await get_file_stats(directory_path)
         print(stats_dict)
         if 'error' not in stats_dict:
             print(f'Stats for {file_path}:')
