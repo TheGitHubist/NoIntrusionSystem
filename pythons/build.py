@@ -3,6 +3,7 @@ import os
 import json
 import sys
 import stats
+import log
 
 async def statsToJson(stats_dict) -> None:
     try:
