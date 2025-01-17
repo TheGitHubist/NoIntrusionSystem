@@ -12,10 +12,8 @@ async def statsToJson(stats_dict) -> None:
     except Exception as e:
         print(f'Error writing to stats.json: {str(e)}')
 
-async def main():
-    if len(sys.argv) != 2:
-        sys.exit(1)
-    file_list = await stats.getFilesFromTxt(sys.argv[1])
+async def build(file_path_act):
+    file_list = await stats.getFilesFromTxt(file_path_act)
     stats_dict = {}
     for file_path in file_list:
         stats_dict[file_path] = await stats.get_file_stats(file_path)
@@ -23,9 +21,3 @@ async def main():
         print(f'Stats for {file_stats}:')
         print(stats_dict[file_stats])
     await statsToJson(stats_dict)
-
-if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        sys.exit(1)

@@ -1,0 +1,2 @@
+/home/yasei/NoIntrusionSystem/test
+/home/yasei/NoIntrusionSystem/pythons
