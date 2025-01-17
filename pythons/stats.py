@@ -96,20 +96,3 @@ async def get_file_stats(file_path) -> dict:
         return {
             'error': str(e)
         }
-
-async def main():
-    if len(sys.argv) != 2:
-        sys.exit(1)
-    files = await getFilesFromTxt(sys.argv[1])
-    log.logger.info(f"files : {files}")
-    for file_path in files:
-        stats_dict = await get_file_stats(file_path)
-        if 'error' not in stats_dict:
-            log.logger.info(f'Stats for {file_path}:')
-            log.logger.info(stats_dict)
-
-if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        sys.exit(1)
