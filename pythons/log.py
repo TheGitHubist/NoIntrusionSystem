@@ -1,4 +1,5 @@
 import logging
+import os
 
 logger = logging.getLogger("logs")
 logger.setLevel(10)
@@ -35,7 +36,7 @@ class CustomFormatter(logging.Formatter):
 console_handler = logging.StreamHandler()
 console_handler.setLevel(10)
 console_handler.setFormatter(CustomFormatter(fmt))
-
+os.makedirs('/var/log/ids', exist_ok=True)
 file_handler = logging.FileHandler("/var/log/ids/ids.log", mode="a", encoding="utf-8")
 file_handler.setLevel(10)
 file_handler.setFormatter(logging.Formatter(fmt2))

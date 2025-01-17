@@ -18,12 +18,12 @@ async def stats_compare(files : list, check_dict : dict):
         if stat_dict[file_name] == check_dict[file_name]:
             continue
         else :
-            log.logger.CRITICAL("probleme")
+            log.logger.critical("probleme")
             compteur += 1
             pfile.append(file_name)
             
     if compteur != 0:
-        log.logger.CRITICAL(f"this files have problem : {pfile}")
+        log.logger.critical(f"this files have problem : {pfile}")
     else:
         log.logger.info("pas de probleme")
 
