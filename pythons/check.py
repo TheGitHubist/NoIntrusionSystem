@@ -7,11 +7,13 @@ import stats
 import sys
 import json
 
+
 async def stats_compare(files : list, check_dict : dict):
     stat_dict = {}
     compteur = 0
     pfile = []
     print("Comparaison des stats")
+    log.logger.info("Comparaison des stats")
     for file_name in files:       
         stat_dict[file_name] = await stats.get_file_stats(file_name)
         if stat_dict[file_name] == check_dict[file_name]:
