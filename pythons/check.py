@@ -36,6 +36,7 @@ async def main():
     file_list_path = sys.argv[1]
     file_list = []
     print("Lecture des stats")
+    build.build(sys.argv[1])
     with open(file_list_path, 'r') as file:
         file_list = [line.strip() for line in file.readlines()]
     jsonstr = open('/var/ids/db.json').read()
