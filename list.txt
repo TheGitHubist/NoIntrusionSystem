@@ -1,4 +1,1 @@
-./pythons/check.py
-./pythons/main.py
-./pythons/log.py
-./test
+/tmp/yo
