@@ -25,8 +25,8 @@ async def stats_compare(files : list, check_dict : dict):
             pfile.append(file_name)
             
     if compteur != 0:
-        for 
-        log.logger.warning(f"this files have problem : {pfile} - last modification : {pfilelastmod}")
+        for i in range(len(pfile)):
+            log.logger.warning(f"this files have problem : {pfile[i]} - last modification : {pfilelastmod[i]}")
     else:
         log.logger.info("pas de probleme")
 
