@@ -28,21 +28,10 @@ async def stats_compare(files : list, check_dict : dict):
         log.logger.info("pas de probleme")
 
 
-async def main():
-
-    if len(sys.argv) != 2:
-        sys.exit(1)
-    file_list_path = sys.argv[1]
-    file_list = await stats.getFilesFromTxt(sys.argv[1])
+async def check(file_list_path):
+    file_list = await stats.getFilesFromTxt(file_list_path)
     log.logger.info("Lecture des stats")
-    await build.build(sys.argv[1])
     jsonstr = open('/var/ids/db.json').read()
     check_dict = json.loads(jsonstr)
     await stats_compare(file_list, check_dict)
     
-
-if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        sys.exit(1)
