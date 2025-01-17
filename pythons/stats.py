@@ -84,4 +84,4 @@ async def get_file_stats(file_path) -> dict:
     except FileNotFoundError:
         log.logger.error('error': f'File not found: {file_path}')
     except Exception as e:
-            log.logger.error('error': str(e))
+        log.logger.error('error': str(e))
