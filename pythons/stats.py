@@ -27,13 +27,10 @@ async def get_file_hash(file_path, hashCode) -> str:
                 hash.update(data)
         return hash.hexdigest()
     except FileNotFoundError:
-        return {
-            'error': f'File not found: {file_path}'
-        }
+        log.logger.error('error': f'File not found: {file_path}')
+        
     except Exception as e:
-        return {
-            'error': str(e)
-        }
+        log.logger.error('error': str(e))
 
 async def format_datetime(date_time:dt) -> str:
     return date_time.strftime(f'%d/%m/%Y - %H:%M:%S')
@@ -50,7 +47,7 @@ async def getFilesFromTxt(file_path) -> list:
                     files.append(line)
         return files
     except Exception as e:
-        print("fuck you : ", e)
+        log.logger.error("error : ", e)
 
 async def get_files_from_directory(directory_path) -> list:
     try:
@@ -65,13 +62,9 @@ async def get_files_from_directory(directory_path) -> list:
                 continue
         return files
     except FileNotFoundError:
-        return {
-            'error': f'Directory not found: {directory_path}'
-        }
+        log.logger.error('error': f'Directory not found: {directory_path}')
     except Exception as e:
-        return {
-            'error': str(e)
-        }
+        log.logger.error('error': str(e))
 
 async def get_file_stats(file_path) -> dict:
     try:
@@ -89,10 +82,6 @@ async def get_file_stats(file_path) -> dict:
                 'owner_group': grp.getgrgid(file_stats.st_gid).gr_name,
             }
     except FileNotFoundError:
-        return {
-            'error': f'File not found: {file_path}'
-        }
+        log.logger.error('error': f'File not found: {file_path}')
     except Exception as e:
-        return {
-            'error': str(e)
-        }
+            log.logger.error('error': str(e))
