@@ -6,6 +6,7 @@ import pwd
 import grp
 import sys
 import asyncio
+import log
 
 async def get_file_hash(file_path, hashCode) -> str:
     try:
@@ -100,7 +101,7 @@ async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
     files = await getFilesFromTxt(sys.argv[1])
-    print(files)
+    log.logger.info(f"files : {files}")
     for file_path in files:
         stats_dict = await get_file_stats(file_path)
         print("\n\n")
