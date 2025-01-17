@@ -33,11 +33,9 @@ async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
     file_list_path = sys.argv[1]
-    file_list = []
+    file_list = await stats.getFilesFromTxt(sys.argv[1])
     log.logger.info("Lecture des stats")
     await build.build(sys.argv[1])
-    with open(file_list_path, 'r') as file:
-        file_list = [line.strip() for line in file.readlines()]
     jsonstr = open('/var/ids/db.json').read()
     check_dict = json.loads(jsonstr)
     await stats_compare(file_list, check_dict)
