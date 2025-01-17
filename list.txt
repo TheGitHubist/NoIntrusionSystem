@@ -1,1 +1,3 @@
-/tmp/yo
+/home/yasei/NoIntrusionSystem/test
+/home/yasei/NoIntrusionSystem/pythons/build.py
+/home/yasei/NoIntrusionSystem/pythons/check.py
