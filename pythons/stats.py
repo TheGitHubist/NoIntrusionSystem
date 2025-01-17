@@ -41,12 +41,12 @@ async def getFilesFromTxt(file_path) -> list:
     try:
         files = []
         async with aiofile.async_open(file_path, 'r') as f:
-            lines = [line.rstrip('\n') for line in f]
-            line = await f.readline()
-            if os.path.isdir(line) :
-                files.extend(await get_files_from_directory(line))
-            else:
-                files.append(line)
+            async for line in f:
+                line = line.rstrip('\n')
+                if os.path.isdir(line) :
+                    files.extend(await get_files_from_directory(line))
+                else:
+                    files.append(line)
         return files
     except Exception as e:
         print("fuck you : ", e)
@@ -99,14 +99,11 @@ async def get_file_stats(file_path) -> dict:
 async def main():
     if len(sys.argv) != 2:
         sys.exit(1)
-    a = await getFilesFromTxt("/home/yasei/NoIntrusionSystem/list.txt")
-    print(a)
-    directory_path = sys.argv[1]
-    files = await get_files_from_directory(directory_path)
+    files = await getFilesFromTxt(sys.argv[1])
     print(files)
     for file_path in files:
         stats_dict = await get_file_stats(file_path)
-        print(stats_dict)
+        print("\n\n")
         if 'error' not in stats_dict:
             print(f'Stats for {file_path}:')
             print(stats_dict)
