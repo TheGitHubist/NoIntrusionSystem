@@ -39,9 +39,14 @@ async def format_datetime(date_time:dt) -> str:
 
 async def getFilesFromTxt(file_path) -> list:
     try:
-        print("ooo" + file_path)
+        files = []
         async with aiofile.async_open(file_path, 'r') as f:
-            b = await f.readline()
+            line = await f.readline()
+            if os.path.isdir(line) :
+                files.extend(get_files_from_directory(line))
+            else:
+                files.append(line)
+        return files
     except Exception as e:
         print("fuck you : ", e)
 
