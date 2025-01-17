@@ -12,18 +12,21 @@ async def stats_compare(files : list, check_dict : dict):
     stat_dict = {}
     compteur = 0
     pfile = []
+    pfilelastmod = []
     log.logger.info("Comparaison des stats")
     for file_name in files:       
         stat_dict[file_name] = await stats.get_file_stats(file_name)
         if stat_dict[file_name] == check_dict[file_name]:
             continue
         else :
-            log.logger.critical("probleme")
+            log.logger.warning("probleme")
             compteur += 1
+            pfilelastmod.append(stat_dict[file_name]['modification_time']) 
             pfile.append(file_name)
             
     if compteur != 0:
-        log.logger.critical(f"this files have problem : {pfile}")
+        for 
+        log.logger.warning(f"this files have problem : {pfile} - last modification : {pfilelastmod}")
     else:
         log.logger.info("pas de probleme")
 
